@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Xedk0/lwOxoFrE+2AbusouhbghtywR3LH6lKqCMaGw4DMv4B0o0c+d9wnsVj+ehtCtOMc0vaQRXo7EA3u8QBAA==",
+  "dgSpecHash": "LpAY8MFn1v4t/aT7WwjK8WUlHyHsoYLTOI51WE+OW00RIhlqexcNojrAESWiuvvFwjk4jYTM/Gd4u9cA92sACg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Marian\\Desktop\\DEV\\CGILScheduler\\cgil-scheduler-webapi\\Application\\Application.csproj",
+  "projectFilePath": "C:\\Users\\Marian\\CGILScheduler\\cgil-scheduler-webapi\\Application\\Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Marian\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\Marian\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

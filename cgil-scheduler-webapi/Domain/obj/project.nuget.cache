@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "K0UYL/orRFLCCb8R+Qdk9kZ6e313jXfz3pMo59NAoakTvIaKfqDb3v4vCjYztuAekjojxmXTVky9+m5MiIkRcg==",
+  "dgSpecHash": "kVXqKUfdm0LDfiQQr25AtGy9DhvXW+N9SUHjuniU3hn0r5bS7gbmJ/UX4mlRBH6JJYCWoWZIUIU66qgJJ9CSWw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Marian\\Desktop\\DEV\\CGILScheduler\\cgil-scheduler-webapi\\Domain\\Domain.csproj",
+  "projectFilePath": "C:\\Users\\Marian\\CGILScheduler\\cgil-scheduler-webapi\\Domain\\Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Marian\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\7.0.5\\microsoft.aspnetcore.cryptography.internal.7.0.5.nupkg.sha512",
     "C:\\Users\\Marian\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\7.0.5\\microsoft.aspnetcore.cryptography.keyderivation.7.0.5.nupkg.sha512",
