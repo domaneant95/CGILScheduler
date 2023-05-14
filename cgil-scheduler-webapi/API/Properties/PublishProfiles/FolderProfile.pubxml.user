@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\Marian\CGILScheduler\cgil-scheduler-webapi\API\bin\Release\net7.0\publish\</_PublishTargetUrl>
+    <History>True|2023-05-11T02:31:51.7800804Z;True|2023-05-11T04:23:52.3811025+02:00;</History>
+    <LastFailureDetails />
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+  </PropertyGroup>
+</Project>

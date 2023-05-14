@@ -1,14 +1,14 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 using Persistence;
 using Application.Activities;
 using Application.Core;
 using API.Extensions;
-using Microsoft.AspNetCore.Identity;
 using Domain;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +37,7 @@ builder.Services.AddCors(opt =>
 builder.Services.AddMediatR(typeof(List.Handler));
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 builder.Services.AddIdentityServices(builder.Configuration);
+builder.Services.AddCryptographyServices(builder.Configuration);
 
 var app = builder.Build();
 
