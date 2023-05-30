@@ -9,14 +9,14 @@ using Persistence;
 
 namespace Application.Activities
 {
-    public class Create
+    public class Details
     {
-        public class Command : IRequest
+        public class Query : IRequest<Deal>
         {
-            public Activity Activity { get; set; }
+            public int Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Query, Deal>
         {
             private readonly DataContext context;
             public Handler(DataContext context)
@@ -24,11 +24,9 @@ namespace Application.Activities
                 this.context = context;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Deal> Handle(Query request, CancellationToken cancellationToken)
             {
-                context.Activities.Add(request.Activity);
-                await context.SaveChangesAsync();
-                return Unit.Value;
+                return await context.Deal.FindAsync(request.Id);
             }
         }
     }

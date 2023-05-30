@@ -7,12 +7,12 @@ namespace Application.Activities
 {
     public class List
     {
-        public class Query : IRequest<List<Activity>>
+        public class Query : IRequest<List<Deal>>
         {
             //--
         }
 
-        public class Handler : IRequestHandler<Query, List<Activity>>
+        public class Handler : IRequestHandler<Query, List<Deal>>
         {
             private readonly DataContext context;
 
@@ -21,10 +21,10 @@ namespace Application.Activities
                 this.context = context;
             }
 
-            public async Task<List<Activity>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<Deal>> Handle(Query request, CancellationToken cancellationToken)
             {
                 Console.WriteLine("Handle request");
-                return await this.context.Activities.ToListAsync();
+                return await this.context.Deal.ToListAsync();
             }
         }
     }

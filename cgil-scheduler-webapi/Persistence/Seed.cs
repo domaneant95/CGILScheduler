@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
 using Domain;
+using System.Xml.Linq;
 
 namespace Persistence
 {
@@ -16,116 +17,130 @@ namespace Persistence
             if (!userManager.Users.Any())
             {
                 var users = new List<AppUser>()
-                {
-                    new AppUser(){DisplayName="Bob", UserName="bob", Email="bob@test.com"},
-                    new AppUser(){DisplayName="Tom", UserName="tom", Email="tom@test.com"},
-                    new AppUser(){DisplayName="Jane", UserName="jane", Email="jane@test.com"},
-                    new AppUser(){DisplayName="Dan Perta", UserName="dan", Email="dan.perta@gmail.com"}
-                };
+                    {
+                        new AppUser(){DisplayName="Bob", UserName="bob", Email="bob@test.com"},
+                        new AppUser(){DisplayName="Tom", UserName="tom", Email="tom@test.com"},
+                        new AppUser(){DisplayName="Jane", UserName="jane", Email="jane@test.com"},
+                        new AppUser(){DisplayName="Dan Perta", UserName="dan", Email="dan.perta@gmail.com"}
+                    };
 
-                foreach (var user in users) 
+                foreach (var user in users)
                 {
                     await userManager.CreateAsync(user, "Pa$$w0rd");
                 }
             }
 
-            if (context.Activities.Any()) return;
+            if (context.Deal.Any()) return;
 
-            var activities = new List<Activity>
+            var priorities = new List<Priority>()
             {
-                new Activity
+                new Priority()
                 {
-                    Title = "Past Activity 1",
-                    Date = DateTime.UtcNow.AddMonths(-2),
-                    Description = "Activity 2 months ago",
-                    Category = "drinks",
-                    City = "London",
-                    Venue = "Pub",
+                    PrId = 1,
+                    Code = 1,
+                    Color = "#32131",
+                    Text = "Low priority"
                 },
-                new Activity
+                new Priority()
                 {
-                    Title = "Past Activity 2",
-                    Date = DateTime.UtcNow.AddMonths(-1),
-                    Description = "Activity 1 month ago",
-                    Category = "culture",
-                    City = "Paris",
-                    Venue = "Louvre",
+                    PrId = 2,
+                    Code = 2,
+                    Color = "#32131",
+                    Text = "Medium priority"
                 },
-                new Activity
+                new Priority()
                 {
-                    Title = "Future Activity 1",
-                    Date = DateTime.UtcNow.AddMonths(1),
-                    Description = "Activity 1 month in future",
-                    Category = "culture",
-                    City = "London",
-                    Venue = "Natural History Museum",
-                },
-                new Activity
-                {
-                    Title = "Future Activity 2",
-                    Date = DateTime.UtcNow.AddMonths(2),
-                    Description = "Activity 2 months in future",
-                    Category = "music",
-                    City = "London",
-                    Venue = "O2 Arena",
-                },
-                new Activity
-                {
-                    Title = "Future Activity 3",
-                    Date = DateTime.UtcNow.AddMonths(3),
-                    Description = "Activity 3 months in future",
-                    Category = "drinks",
-                    City = "London",
-                    Venue = "Another pub",
-                },
-                new Activity
-                {
-                    Title = "Future Activity 4",
-                    Date = DateTime.UtcNow.AddMonths(4),
-                    Description = "Activity 4 months in future",
-                    Category = "drinks",
-                    City = "London",
-                    Venue = "Yet another pub",
-                },
-                new Activity
-                {
-                    Title = "Future Activity 5",
-                    Date = DateTime.UtcNow.AddMonths(5),
-                    Description = "Activity 5 months in future",
-                    Category = "drinks",
-                    City = "London",
-                    Venue = "Just another pub",
-                },
-                new Activity
-                {
-                    Title = "Future Activity 6",
-                    Date = DateTime.UtcNow.AddMonths(6),
-                    Description = "Activity 6 months in future",
-                    Category = "music",
-                    City = "London",
-                    Venue = "Roundhouse Camden",
-                },
-                new Activity
-                {
-                    Title = "Future Activity 7",
-                    Date = DateTime.UtcNow.AddMonths(7),
-                    Description = "Activity 2 months ago",
-                    Category = "travel",
-                    City = "London",
-                    Venue = "Somewhere on the Thames",
-                },
-                new Activity
-                {
-                    Title = "Future Activity 8",
-                    Date = DateTime.UtcNow.AddMonths(8),
-                    Description = "Activity 8 months in future",
-                    Category = "film",
-                    City = "London",
-                    Venue = "Cinema",
+                    PrId = 3,
+                    Code = 3,
+                    Color = "#32131",
+                    Text = "High priority"
                 }
             };
 
-            await context.Activities.AddRangeAsync(activities);
+            var headQuarters = new List<Headquarter>()
+            {
+                new Headquarter()
+                {
+                    HdId = 1,
+                    HdName="CGIL Legnaro",
+                    HdProvince = "Padova",
+                    HdRegion = "Veneto",
+                    HdCity = "Legnaro",
+                    HdZipCode = 35020,
+                    HdAddress = "Via Antonio Vivaldi",
+                    StreetNumber = 2
+                },
+                new Headquarter()
+                {
+                    HdId = 2,
+                    HdName="CAAF CGIL Piove di Sacco",
+                    HdProvince = "Padova",
+                    HdRegion = "Veneto",
+                    HdCity = "Piove di Sacco",
+                    HdZipCode = 35028,
+                    HdAddress = "Via Antonio Gramsci",
+                    StreetNumber = 2
+                },
+                new Headquarter()
+                {
+                    HdId = 3,
+                    HdName="CGIL Padova Centro",
+                    HdProvince = "Padova",
+                    HdRegion = "Veneto",
+                    HdCity = "Padova",
+                    HdZipCode = 35121 ,
+                    HdAddress = "Via Angello Riello",
+                    StreetNumber = 4
+                }
+            };
+
+            var deals = new List<Deal>()
+            {
+                new Deal()
+                {
+                    DlId = 1,
+                    DlPriorityId = priorities.Take(1).First().PrId,
+                    DlText = "Amazon",
+                    DlHdId = headQuarters.Skip(2).First().HdId,
+                    DlUserId = userManager.Users.FirstOrDefault(x => x.Email.Equals("dan.perta@gmail.com")).Id,
+                    DlStartDate = DateTime.Now,
+                    DlEndDate = DateTime.Now.AddHours(5),
+                },
+                new Deal()
+                {
+                    DlId = 2,
+                    DlPriorityId = priorities.Skip(1).Take(1).First().PrId,
+                    DlText = "IKEA",
+                    DlHdId = headQuarters.Skip(2).First().HdId,
+                    DlUserId = userManager.Users.FirstOrDefault(x => x.Email.Equals("dan.perta@gmail.com")).Id,
+                    DlStartDate = DateTime.Now.AddDays(1),
+                    DlEndDate = DateTime.Now.AddDays(1).AddHours(5),
+                }
+            };
+
+            var assignees = new List<Assignee>()
+            {
+                new Assignee()
+                {
+                    AeId = 1,
+                    AeUsId = userManager.Users.FirstOrDefault(x => x.Email.Equals("dan.perta@gmail.com")).Id
+                }
+            };
+
+            var dealAssignee = new List<DealAssigne>()
+            {
+                new DealAssigne()
+                {
+                    DaDlId = deals.FirstOrDefault().DlId,
+                    DaAeId = assignees.FirstOrDefault().AeId,
+                }
+            };
+
+            await context.Priority.AddRangeAsync(priorities);
+            await context.Headquarter.AddRangeAsync(headQuarters);
+            await context.Assignee.AddRangeAsync(assignees);
+            await context.Deal.AddRangeAsync(deals);
+            await context.DealAssigne.AddRangeAsync(dealAssignee);
             await context.SaveChangesAsync();
         }
     }

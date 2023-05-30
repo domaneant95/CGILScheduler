@@ -17,6 +17,10 @@ namespace Persistence
             //--
         }
 
-        public DbSet<Activity> Activities { get; set; }
+        public DbSet<Deal> Deal { get; set; }
+        public DbSet<Assignee> Assignee { get; set; }
+        public DbSet<DealAssigne> DealAssigne { get; set; }
+        public DbSet<Headquarter> Headquarter { get; set; }
+        public DbSet<Priority> Priority { get; set; }
     }
 }

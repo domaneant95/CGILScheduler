@@ -12,5 +12,7 @@ namespace Domain
     {
         public string DisplayName { get; set; }
         public string Bio { get; set; }
+        public Assignee Assignee { get; set; }
+        public Deal Deal { get; set; }
     }
 }

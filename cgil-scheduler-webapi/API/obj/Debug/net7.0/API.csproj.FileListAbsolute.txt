@@ -232,3 +232,4 @@ C:\Users\Marian\CGILScheduler\cgil-scheduler-webapi\API\obj\Debug\net7.0\refint\
 C:\Users\Marian\CGILScheduler\cgil-scheduler-webapi\API\obj\Debug\net7.0\API.pdb
 C:\Users\Marian\CGILScheduler\cgil-scheduler-webapi\API\obj\Debug\net7.0\API.genruntimeconfig.cache
 C:\Users\Marian\CGILScheduler\cgil-scheduler-webapi\API\obj\Debug\net7.0\ref\API.dll
+C:\Users\Marian\CGILScheduler\cgil-scheduler-webapi\API\bin\Debug\net7.0\Untitled-1.json
