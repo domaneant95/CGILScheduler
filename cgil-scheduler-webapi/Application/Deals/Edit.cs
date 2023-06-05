@@ -29,7 +29,7 @@ namespace Application.Activities
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var activity = await context.Deal.FindAsync(request.Deal.DlId);
+                Deal activity = null;//await context.Deal.FindAsync(request.Deal.DlId);
                 mapper.Map(request.Deal, activity);
                 await context.SaveChangesAsync();
                 return Unit.Value;

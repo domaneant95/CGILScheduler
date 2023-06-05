@@ -14,6 +14,5 @@ namespace Domain
         public int Code { get; set; }
         public string Text { get; set; }
         public string Color { get; set; }
-        public Deal Deal { get; set; }
     }
 }

@@ -20,6 +20,5 @@ namespace Domain
         public int HdZipCode { get; set; }
         public int StreetNumber { get; set; }
         public int DlId { get; set; }
-        public ICollection<Deal> Deal { get; set; }
     }
 }

@@ -13,9 +13,6 @@ namespace Domain
     public class Assignee
     {
         public int AeId { get; set; }
-
-        [ForeignKey("AppUser")]
         public string AeUsId { get; set; }
-        public AppUser AeUs { get; set; }
     }
 }

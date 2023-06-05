@@ -12,13 +12,7 @@ namespace Domain
     public class DealAssigne
     {
         public int DaId { get; set; }
-
-        [ForeignKey("Deal")]
         public int DaDlId { get; set; }
-        public Deal DaDl { get; set; }
-
-        [ForeignKey("Assignee")]
         public int DaAeId { get; set; }      
-        public Assignee DaAe { get; set; }
     }
 }

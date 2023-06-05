@@ -26,7 +26,7 @@ namespace Application.Activities
 
             public async Task<Deal> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await context.Deal.FindAsync(request.Id);
+                return null;// await context.Deal.FindAsync(request.Id);
             }
         }
     }

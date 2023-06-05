@@ -11,8 +11,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230528173420_IdentityAdded4")]
-    partial class IdentityAdded4
+    [Migration("20230601205257_IdentityAdded")]
+    partial class IdentityAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,9 @@ namespace Persistence.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Bio")
                         .HasColumnType("TEXT");
@@ -90,28 +93,14 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Assignee", b =>
-                {
-                    b.Property<int>("AeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("AeUsId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("AeId");
-
-                    b.HasIndex("AeUsId")
-                        .IsUnique();
-
-                    b.ToTable("Assignee");
-                });
-
             modelBuilder.Entity("Domain.Deal", b =>
                 {
                     b.Property<int>("DlId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DlEndDate")
                         .HasColumnType("TEXT");
@@ -128,98 +117,11 @@ namespace Persistence.Migrations
                     b.Property<string>("DlText")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("DlUserId")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("DlId");
 
-                    b.HasIndex("DlHdId");
-
-                    b.HasIndex("DlPriorityId")
-                        .IsUnique();
-
-                    b.HasIndex("DlUserId");
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Deal");
-                });
-
-            modelBuilder.Entity("Domain.DealAssigne", b =>
-                {
-                    b.Property<int>("DaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("DaAeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("DaDlId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("DaId");
-
-                    b.HasIndex("DaAeId");
-
-                    b.HasIndex("DaDlId");
-
-                    b.ToTable("DealAssigne");
-                });
-
-            modelBuilder.Entity("Domain.Headquarter", b =>
-                {
-                    b.Property<int>("HdId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("DlId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("HdAddress")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("HdCity")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("HdColor")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("HdName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("HdProvince")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("HdRegion")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("HdZipCode")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("StreetNumber")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("HdId");
-
-                    b.ToTable("Headquarter");
-                });
-
-            modelBuilder.Entity("Domain.Priority", b =>
-                {
-                    b.Property<int>("PrId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Code")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Color")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("PrId");
-
-                    b.ToTable("Priority");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -350,57 +252,13 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Assignee", b =>
-                {
-                    b.HasOne("Domain.AppUser", "AeUs")
-                        .WithOne("Assignee")
-                        .HasForeignKey("Domain.Assignee", "AeUsId");
-
-                    b.Navigation("AeUs");
-                });
-
             modelBuilder.Entity("Domain.Deal", b =>
                 {
-                    b.HasOne("Domain.Headquarter", "DlHd")
-                        .WithMany("Deal")
-                        .HasForeignKey("DlHdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Domain.AppUser", "AppUser")
+                        .WithMany("Deals")
+                        .HasForeignKey("AppUserId");
 
-                    b.HasOne("Domain.Priority", "DlPriority")
-                        .WithOne("Deal")
-                        .HasForeignKey("Domain.Deal", "DlPriorityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.AppUser", "DlUser")
-                        .WithMany()
-                        .HasForeignKey("DlUserId");
-
-                    b.Navigation("DlHd");
-
-                    b.Navigation("DlPriority");
-
-                    b.Navigation("DlUser");
-                });
-
-            modelBuilder.Entity("Domain.DealAssigne", b =>
-                {
-                    b.HasOne("Domain.Assignee", "DaAe")
-                        .WithMany()
-                        .HasForeignKey("DaAeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Deal", "DaDl")
-                        .WithMany()
-                        .HasForeignKey("DaDlId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DaAe");
-
-                    b.Navigation("DaDl");
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -456,17 +314,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.AppUser", b =>
                 {
-                    b.Navigation("Assignee");
-                });
-
-            modelBuilder.Entity("Domain.Headquarter", b =>
-                {
-                    b.Navigation("Deal");
-                });
-
-            modelBuilder.Entity("Domain.Priority", b =>
-                {
-                    b.Navigation("Deal");
+                    b.Navigation("Deals");
                 });
 #pragma warning restore 612, 618
         }

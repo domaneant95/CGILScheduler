@@ -30,7 +30,7 @@ namespace Persistence
                 }
             }
 
-            if (context.Deal.Any()) return;
+            //if (context.Deal.Any()) return;
 
             var priorities = new List<Priority>()
             {
@@ -102,7 +102,7 @@ namespace Persistence
                     DlPriorityId = priorities.Take(1).First().PrId,
                     DlText = "Amazon",
                     DlHdId = headQuarters.Skip(2).First().HdId,
-                    DlUserId = userManager.Users.FirstOrDefault(x => x.Email.Equals("dan.perta@gmail.com")).Id,
+                    AppUserId = userManager.Users.FirstOrDefault(x => x.Email.Equals("dan.perta@gmail.com")).Id,
                     DlStartDate = DateTime.Now,
                     DlEndDate = DateTime.Now.AddHours(5),
                 },
@@ -112,7 +112,7 @@ namespace Persistence
                     DlPriorityId = priorities.Skip(1).Take(1).First().PrId,
                     DlText = "IKEA",
                     DlHdId = headQuarters.Skip(2).First().HdId,
-                    DlUserId = userManager.Users.FirstOrDefault(x => x.Email.Equals("dan.perta@gmail.com")).Id,
+                    AppUserId = userManager.Users.FirstOrDefault(x => x.Email.Equals("dan.perta@gmail.com")).Id,
                     DlStartDate = DateTime.Now.AddDays(1),
                     DlEndDate = DateTime.Now.AddDays(1).AddHours(5),
                 }
@@ -136,11 +136,11 @@ namespace Persistence
                 }
             };
 
-            await context.Priority.AddRangeAsync(priorities);
-            await context.Headquarter.AddRangeAsync(headQuarters);
-            await context.Assignee.AddRangeAsync(assignees);
+            //await context.Priority.AddRangeAsync(priorities);
+            //await context.Headquarter.AddRangeAsync(headQuarters);
+            //await context.Assignee.AddRangeAsync(assignees);
             await context.Deal.AddRangeAsync(deals);
-            await context.DealAssigne.AddRangeAsync(dealAssignee);
+            //await context.DealAssigne.AddRangeAsync(dealAssignee);
             await context.SaveChangesAsync();
         }
     }

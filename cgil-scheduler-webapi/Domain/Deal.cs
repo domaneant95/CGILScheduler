@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,21 +12,12 @@ namespace Domain
     public class Deal
     {
         public int DlId { get; set; }
-
-        [ForeignKey("AppUser")]
-        public string DlUserId { get; set; }
-        public AppUser DlUser { get; set; }
-
-        [ForeignKey("Priority")]
+        public string AppUserId { get; set; }
         public int DlPriorityId { get; set; }
-        public Priority DlPriority { get; set; }
-
-        [ForeignKey("Headquarter")]
         public int DlHdId { get; set; }
-        public Headquarter DlHd { get; set; }
-
         public string DlText { get; set; }
         public DateTime DlStartDate { get; set; }
         public DateTime DlEndDate { get; set; }
+        public virtual AppUser AppUser { get; set; }
     }
 }
