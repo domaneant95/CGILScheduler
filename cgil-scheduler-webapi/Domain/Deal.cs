@@ -8,16 +8,18 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    [PrimaryKey("DlId")]
     public class Deal
     {
-        public int DlId { get; set; }
-        public string AppUserId { get; set; }
-        public int DlPriorityId { get; set; }
-        public int DlHdId { get; set; }
-        public string DlText { get; set; }
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public string Description { get; set; }
+        public string ReccurenceRule { get; set; }
+        public string RecurrenceException { get; set; }
         public DateTime DlStartDate { get; set; }
         public DateTime DlEndDate { get; set; }
-        public virtual AppUser AppUser { get; set; }
+        public AppUser AppUser { get; set; }
+        public Priority Priority { get; set; }
+        public Headquarter Headquarter { get; set; }
+        public ICollection<Assignee> Assignees { get; set; }
     }
 }

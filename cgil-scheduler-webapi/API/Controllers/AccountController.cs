@@ -6,10 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 using Domain;
-using API.DTOs;
 using API.Services;
 using Application.Core;
-
+using Domain.Dto;
 
 namespace API.Controllers
 {

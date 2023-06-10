@@ -9,10 +9,15 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    [PrimaryKey("AeId")]
     public class Assignee
     {
-        public int AeId { get; set; }
-        public string AeUsId { get; set; }
+        public Assignee()
+        {
+            Deals = new HashSet<Deal>();
+        }
+
+        public int Id { get; set; }
+        public AppUser AppUser { get; set; }
+        public ICollection<Deal> Deals { get; set; }
     }
 }

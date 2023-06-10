@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 
 using Domain;
 using System.Xml.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
 {
@@ -30,29 +31,28 @@ namespace Persistence
                 }
             }
 
-            //if (context.Deal.Any()) return;
+            return;
+
+            var danUser = userManager.Users.FirstOrDefault(x => x.DisplayName == "Dan Perta");
 
             var priorities = new List<Priority>()
             {
                 new Priority()
                 {
-                    PrId = 1,
                     Code = 1,
-                    Color = "#32131",
+                    Color = "green",
                     Text = "Low priority"
                 },
                 new Priority()
                 {
-                    PrId = 2,
                     Code = 2,
-                    Color = "#32131",
-                    Text = "Medium priority"
+                    Color = "orange",
+                    Text = "Average priority"
                 },
                 new Priority()
                 {
-                    PrId = 3,
                     Code = 3,
-                    Color = "#32131",
+                    Color = "orange",
                     Text = "High priority"
                 }
             };
@@ -61,86 +61,49 @@ namespace Persistence
             {
                 new Headquarter()
                 {
-                    HdId = 1,
-                    HdName="CGIL Legnaro",
-                    HdProvince = "Padova",
+                    HdName = "CAAF CGIL Albignasego",
+                    HdColor = "#000",
                     HdRegion = "Veneto",
+                    HdAddress = "Vicolo Trieste",
+                    HdProvince = "Padova",
+                    HdCity = "Albignasego",
+                    HdZipCode = 35020,
+                    StreetNumber = "1"
+                },
+                new Headquarter()
+                {
+                    HdName = "CGIL Legnaro",
+                    HdColor = "#000",
+                    HdRegion = "Veneto",
+                    HdAddress = "Via Antonio Vivaldi",
+                    HdProvince = "Padova",
                     HdCity = "Legnaro",
                     HdZipCode = 35020,
-                    HdAddress = "Via Antonio Vivaldi",
-                    StreetNumber = 2
-                },
-                new Headquarter()
-                {
-                    HdId = 2,
-                    HdName="CAAF CGIL Piove di Sacco",
-                    HdProvince = "Padova",
-                    HdRegion = "Veneto",
-                    HdCity = "Piove di Sacco",
-                    HdZipCode = 35028,
-                    HdAddress = "Via Antonio Gramsci",
-                    StreetNumber = 2
-                },
-                new Headquarter()
-                {
-                    HdId = 3,
-                    HdName="CGIL Padova Centro",
-                    HdProvince = "Padova",
-                    HdRegion = "Veneto",
-                    HdCity = "Padova",
-                    HdZipCode = 35121 ,
-                    HdAddress = "Via Angello Riello",
-                    StreetNumber = 4
+                    StreetNumber = "2"
                 }
             };
 
-            var deals = new List<Deal>()
+            var assignee = new Assignee()
             {
-                new Deal()
-                {
-                    DlId = 1,
-                    DlPriorityId = priorities.Take(1).First().PrId,
-                    DlText = "Amazon",
-                    DlHdId = headQuarters.Skip(2).First().HdId,
-                    AppUserId = userManager.Users.FirstOrDefault(x => x.Email.Equals("dan.perta@gmail.com")).Id,
-                    DlStartDate = DateTime.Now,
-                    DlEndDate = DateTime.Now.AddHours(5),
-                },
-                new Deal()
-                {
-                    DlId = 2,
-                    DlPriorityId = priorities.Skip(1).Take(1).First().PrId,
-                    DlText = "IKEA",
-                    DlHdId = headQuarters.Skip(2).First().HdId,
-                    AppUserId = userManager.Users.FirstOrDefault(x => x.Email.Equals("dan.perta@gmail.com")).Id,
-                    DlStartDate = DateTime.Now.AddDays(1),
-                    DlEndDate = DateTime.Now.AddDays(1).AddHours(5),
-                }
+                AppUser = danUser
             };
 
-            var assignees = new List<Assignee>()
+            var headQuarter = headQuarters.FirstOrDefault();
+
+            var deal = new Deal()
             {
-                new Assignee()
-                {
-                    AeId = 1,
-                    AeUsId = userManager.Users.FirstOrDefault(x => x.Email.Equals("dan.perta@gmail.com")).Id
-                }
+                AppUser = danUser,
+                DlStartDate = DateTime.Now,
+                DlEndDate = DateTime.Now.AddDays(1),
+                Assignees = new List<Assignee>() { assignee },
+                Headquarter = headQuarter,
+                Priority = priorities.FirstOrDefault(),
             };
 
-            var dealAssignee = new List<DealAssigne>()
-            {
-                new DealAssigne()
-                {
-                    DaDlId = deals.FirstOrDefault().DlId,
-                    DaAeId = assignees.FirstOrDefault().AeId,
-                }
-            };
-
-            //await context.Priority.AddRangeAsync(priorities);
-            //await context.Headquarter.AddRangeAsync(headQuarters);
-            //await context.Assignee.AddRangeAsync(assignees);
-            await context.Deal.AddRangeAsync(deals);
-            //await context.DealAssigne.AddRangeAsync(dealAssignee);
+            await context.AddRangeAsync(priorities);
+            await context.AddRangeAsync(headQuarters);
+            await context.AddAsync(assignee);
+            await context.AddAsync(deal);
             await context.SaveChangesAsync();
         }
     }

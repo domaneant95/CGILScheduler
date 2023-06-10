@@ -22,7 +22,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(opt =>
 {
-    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 builder.Services.AddCors(opt =>
@@ -35,7 +35,7 @@ builder.Services.AddCors(opt =>
 
 
 builder.Services.AddMediatR(typeof(List.Handler));
-builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+builder.Services.AddAutoMapper(typeof(DealToDealDtoProfile).Assembly, typeof(DealDtoToDealProfile).Assembly);
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddCryptographyServices(builder.Configuration);
 

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Domain;
 using Persistence;
 using Application.Activities;
+using Domain.Dto;
 
 namespace API.Controllers
 {
@@ -18,7 +19,7 @@ namespace API.Controllers
     public class DealsController : BaseApiController
     {
         [HttpGet] //api/activities
-        public async Task<ActionResult<List<Deal>>> GetDeals()
+        public async Task<ActionResult<List<DealDto>>> GetDeals()
         {
             return await Mediator.Send(new List.Query());
         }
@@ -30,7 +31,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateDeal(Deal activity)
+        public async Task<IActionResult> CreateDeal(DealDto activity)
         {
             return Ok(await Mediator.Send(new Create.Command { Deal = activity }));
         }
@@ -38,14 +39,14 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> EditDeal(int id, Deal activity)
         {
-            activity.DlId = id;
+            activity.Id = id;
             return Ok(await Mediator.Send(new Edit.Command { Deal = activity }));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDeal(int id, Deal activity)
         {
-            activity.DlId = id;
+            activity.Id = id;
             return Ok(await Mediator.Send(new Delete.Command { Deal = activity }));
         }
     }

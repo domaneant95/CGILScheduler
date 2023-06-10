@@ -9,12 +9,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Domain
 {
-    [PrimaryKey("Id")]
     public class AppUser : IdentityUser
     {
-        public string AppUserId { get => Id; set => Id = value; }
+        public AppUser() 
+        {
+            Deals = new HashSet<Deal>();
+        }
+
         public string DisplayName { get; set; }
         public string Bio { get; set; }
-        public ICollection<Deal> Deals { get; set; }
+        //un utente puo' creare tante trattative
+        public ICollection<Deal> Deals { get; set; } 
+        //un utente puo' essere anche un partecipante
+        public Headquarter? Headquarter { get; set; }
     }
 }

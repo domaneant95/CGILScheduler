@@ -7,12 +7,17 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    [PrimaryKey("PrId")]
     public class Priority
     {
-        public int PrId { get; set; }
+        public Priority()
+        {
+            Deals = new HashSet<Deal>();    
+        }
+
+        public int Id { get; set; }
         public int Code { get; set; }
         public string Text { get; set; }
         public string Color { get; set; }
+        public ICollection<Deal> Deals { get; set; }
     }
 }
