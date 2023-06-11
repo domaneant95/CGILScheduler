@@ -12,6 +12,8 @@ using Domain;
 using Persistence;
 using Application.Activities;
 using Domain.Dto;
+using Domain.DTOs;
+using System.Net.Http.Formatting;
 
 namespace API.Controllers
 {
@@ -31,9 +33,12 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateDeal(DealDto activity)
+        public async Task<IActionResult> CreateDeal()
         {
-            return Ok(await Mediator.Send(new Create.Command { Deal = activity }));
+            var form = this.Request.Form;
+            var values = form["values"];
+            var fo = System.Text.Json.JsonSerializer.Deserialize<DealDto>(values.ToString());
+            return Ok(await Mediator.Send(new Create.Command { Deal = fo }));
         }
 
         [HttpPut("{id}")]

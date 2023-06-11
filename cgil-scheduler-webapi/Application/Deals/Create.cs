@@ -31,26 +31,30 @@ namespace Application.Activities
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var assignee = context.Assignee.Include(x => x.AppUser).FirstOrDefault(x => x.Id == request.Deal.AssigneeId);
-                var user = assignee.AppUser;
-                var headQuarter = context.Headquarter.FirstOrDefault(x => x.Id == request.Deal.RoomId);
-                var priority = context.Priority.FirstOrDefault(x => x.Id == request.Deal.PriorityId);
-
-                var deal = new Deal()
+                foreach(var assigneeId in request.Deal.assigneeId)
                 {
-                    DlStartDate = DateTime.Parse(request.Deal.StartDate.ToString()),
-                    DlEndDate = DateTime.Parse(request.Deal.EndDate.ToString()),
-                    AppUser = user,
-                    Description = request.Deal.Description,
-                    Text = request.Deal.Text,
-                    Headquarter = headQuarter,
-                    Priority = priority,
-                    Assignees = new List<Assignee>() { assignee },
-                    ReccurenceRule = request.Deal.ReccurenceRule,
-                    RecurrenceException = request.Deal.RecurrenceException,
-                };
+                    var assignee = context.Assignee.Include(x => x.AppUser).FirstOrDefault(x => x.Id == assigneeId);
+                    var user = assignee.AppUser;
+                    var headQuarter = context.Headquarter.FirstOrDefault(x => x.Id == request.Deal.roomId);
+                    var priority = context.Priority.FirstOrDefault(x => x.Id == (request.Deal.priorityId != null && request.Deal.priorityId.Length > 0 ? request.Deal.priorityId[0] : 1));
 
-                context.Deal.Add(deal);
+                    var deal = new Deal()
+                    {
+                        DlStartDate = DateTime.Parse(request.Deal.startDate.ToString()),
+                        DlEndDate = DateTime.Parse(request.Deal.endDate.ToString()),
+                        AppUser = user,
+                        Description = request.Deal.description,
+                        Text = request.Deal.text,
+                        Headquarter = headQuarter,
+                        Priority = priority,
+                        Assignees = new List<Assignee>() { assignee },
+                        ReccurenceRule = request.Deal.reccurenceRule,
+                        RecurrenceException = request.Deal.recurrenceException,
+                    };
+
+                    context.Deal.Add(deal);
+                }
+
                 await context.SaveChangesAsync();
                 return Unit.Value;
             }

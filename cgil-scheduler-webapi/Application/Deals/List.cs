@@ -40,22 +40,19 @@ namespace Application.Activities
                 List<DealDto> result = new List<DealDto>();
                 foreach(var deal in deals) 
                 {
-                    foreach(var assigne in deal.Assignees)
+                    result.Add(new DealDto()
                     {
-                        result.Add(new DealDto()
-                        {
-                            StartDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                            EndDate = DateTime.Now.AddHours(1).ToString("yyyy-MM-dd HH:mm:ss"),
-                            AllDay = false,
-                            AssigneeId = assigne.Id,
-                            Description = deal.Description,
-                            PriorityId = deal.Priority.Id,
-                            ReccurenceRule = deal.ReccurenceRule,
-                            RecurrenceException = deal.RecurrenceException,
-                            Text = deal.Text,
-                            RoomId = deal.Headquarter.Id
-                        });
-                    }
+                        startDate = deal.DlStartDate,
+                        endDate = deal.DlEndDate,
+                        allDay = false,
+                        assigneeId = deal.Assignees.Select(x => x.Id).ToArray(),
+                        description = deal.Description,
+                        priorityId =  new int[] { deal.Priority.Id },
+                        reccurenceRule = deal.ReccurenceRule,
+                        recurrenceException = deal.RecurrenceException,
+                        text = deal.Text,
+                        roomId = deal.Headquarter.Id 
+                    });
                 }
 
                 return result;
