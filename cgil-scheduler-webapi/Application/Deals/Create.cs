@@ -40,6 +40,7 @@ namespace Application.Activities
 
                     var deal = new Deal()
                     {
+                        Code = Guid.Parse(request.Deal.code),
                         DlStartDate = DateTime.Parse(request.Deal.startDate.ToString()),
                         DlEndDate = DateTime.Parse(request.Deal.endDate.ToString()),
                         AppUser = user,

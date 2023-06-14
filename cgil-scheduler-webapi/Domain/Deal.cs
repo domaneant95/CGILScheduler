@@ -11,6 +11,7 @@ namespace Domain
     public class Deal
     {
         public int Id { get; set; }
+        public Guid Code { get;set; }
         public string Text { get; set; }
         public string Description { get; set; }
         public string ReccurenceRule { get; set; }
@@ -21,5 +22,6 @@ namespace Domain
         public Priority Priority { get; set; }
         public Headquarter Headquarter { get; set; }
         public ICollection<Assignee> Assignees { get; set; }
+        public ICollection<Attachment> Attachments { get; set; }
     }
 }

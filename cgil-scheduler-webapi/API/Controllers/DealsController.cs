@@ -14,6 +14,9 @@ using Application.Activities;
 using Domain.Dto;
 using Domain.DTOs;
 using System.Net.Http.Formatting;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using NPOI.SS.Formula.Functions;
 
 namespace API.Controllers
 {
@@ -41,11 +44,11 @@ namespace API.Controllers
             return Ok(await Mediator.Send(new Create.Command { Deal = fo }));
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> EditDeal(int id, Deal activity)
+        [HttpPut("{code}")]
+        public async Task<IActionResult> EditDeal(string code, DealDto dealDto)
         {
-            activity.Id = id;
-            return Ok(await Mediator.Send(new Edit.Command { Deal = activity }));
+            dealDto.code = code;
+            return Ok(await Mediator.Send(new Edit.Command { Deal = dealDto }));
         }
 
         [HttpDelete("{id}")]
@@ -53,6 +56,36 @@ namespace API.Controllers
         {
             activity.Id = id;
             return Ok(await Mediator.Send(new Delete.Command { Deal = activity }));
+        }
+
+        [HttpPost("upload/{dealCode}")]
+        public async Task<IActionResult> UploadDealDocs(string dealCode)
+        {
+            var formFileCollection = this.Request.Form.Files;
+
+
+            DealDto deal = new DealDto();
+            deal.code = dealCode;
+            deal.attachment = new List<Attachment>();
+
+            foreach (var formFile in formFileCollection)
+            {
+                using var file = formFile.OpenReadStream();
+                using var memStream = new MemoryStream();
+                file.CopyTo(memStream);
+
+                deal.attachment.Add(new Attachment()
+                {
+                    File = memStream.ToArray(),
+                    FileSize = formFile.Length,
+                    FileName = formFile.FileName,
+                    FileExtension = Path.GetExtension(formFile.FileName),
+                    FileType = Path.HasExtension(formFile.FileName) ? FileType.File : FileType.Folder,
+                });
+            }
+
+
+            return Ok(await Mediator.Send(new Upload.Command { Deal = deal }));
         }
     }
 }

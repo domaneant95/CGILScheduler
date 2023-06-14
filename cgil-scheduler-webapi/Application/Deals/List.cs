@@ -34,6 +34,7 @@ namespace Application.Activities
                     .Include(x => x.Priority)
                     .Include(x => x.Assignees)
                     .Include(x => x.Headquarter)
+                    .Include(x => x.Attachments)
                     .ToListAsync();
               
     

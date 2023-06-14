@@ -37,6 +37,21 @@ namespace Persistence.Migrations
                     b.ToTable("AssigneeDeal");
                 });
 
+            modelBuilder.Entity("AttachmentDeal", b =>
+                {
+                    b.Property<int>("AttachmentsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DealsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AttachmentsId", "DealsId");
+
+                    b.HasIndex("DealsId");
+
+                    b.ToTable("AttachmentDeal");
+                });
+
             modelBuilder.Entity("Domain.AppUser", b =>
                 {
                     b.Property<string>("Id")
@@ -131,6 +146,34 @@ namespace Persistence.Migrations
                     b.ToTable("Assignee");
                 });
 
+            modelBuilder.Entity("Domain.Attachment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<byte[]>("File")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("FileExtension")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("FileType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Attachment");
+                });
+
             modelBuilder.Entity("Domain.Deal", b =>
                 {
                     b.Property<int>("Id")
@@ -141,6 +184,9 @@ namespace Persistence.Migrations
 
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("Code")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -374,6 +420,21 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Assignee", null)
                         .WithMany()
                         .HasForeignKey("AssigneesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Deal", null)
+                        .WithMany()
+                        .HasForeignKey("DealsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AttachmentDeal", b =>
+                {
+                    b.HasOne("Domain.Attachment", null)
+                        .WithMany()
+                        .HasForeignKey("AttachmentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

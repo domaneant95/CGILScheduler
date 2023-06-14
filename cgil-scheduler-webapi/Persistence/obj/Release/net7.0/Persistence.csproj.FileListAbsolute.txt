@@ -13,3 +13,5 @@ C:\Users\Marian\CGILScheduler\cgil-scheduler-webapi\Persistence\obj\Release\net7
 C:\Users\Marian\CGILScheduler\cgil-scheduler-webapi\Persistence\obj\Release\net7.0\refint\Persistence.dll
 C:\Users\Marian\CGILScheduler\cgil-scheduler-webapi\Persistence\obj\Release\net7.0\Persistence.pdb
 C:\Users\Marian\CGILScheduler\cgil-scheduler-webapi\Persistence\obj\Release\net7.0\ref\Persistence.dll
+C:\Users\Marian\CGILScheduler\cgil-scheduler-webapi\Persistence\bin\Release\net7.0\Persistence.runtimeconfig.json
+C:\Users\Marian\CGILScheduler\cgil-scheduler-webapi\Persistence\obj\Release\net7.0\Persistence.genruntimeconfig.cache
