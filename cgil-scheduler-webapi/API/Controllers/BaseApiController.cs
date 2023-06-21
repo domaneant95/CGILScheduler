@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Extensions;
+using API.Services;
+using Application.Filemanager;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +15,8 @@ namespace API.Controllers
     public class BaseApiController : ControllerBase
     {
         private IMediator mediator;
+        private DbFileProvider dbFileProvider;
         protected IMediator Mediator => mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+        protected DbFileProvider DbFileProvider => dbFileProvider ??= HttpContext.RequestServices.GetService<DbFileProviderService>().DbFileProvider;
     }
 }

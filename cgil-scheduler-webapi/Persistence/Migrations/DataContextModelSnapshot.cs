@@ -37,7 +37,7 @@ namespace Persistence.Migrations
                     b.ToTable("AssigneeDeal");
                 });
 
-            modelBuilder.Entity("AttachmentDeal", b =>
+            modelBuilder.Entity("DealFileItem", b =>
                 {
                     b.Property<int>("AttachmentsId")
                         .HasColumnType("int");
@@ -49,7 +49,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("DealsId");
 
-                    b.ToTable("AttachmentDeal");
+                    b.ToTable("DealFileItem");
                 });
 
             modelBuilder.Entity("Domain.AppUser", b =>
@@ -146,34 +146,6 @@ namespace Persistence.Migrations
                     b.ToTable("Assignee");
                 });
 
-            modelBuilder.Entity("Domain.Attachment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<byte[]>("File")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("FileExtension")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FileName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("FileSize")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("FileType")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Attachment");
-                });
-
             modelBuilder.Entity("Domain.Deal", b =>
                 {
                     b.Property<int>("Id")
@@ -221,6 +193,59 @@ namespace Persistence.Migrations
                     b.HasIndex("PriorityId");
 
                     b.ToTable("Deal");
+                });
+
+            modelBuilder.Entity("Domain.FileItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Extension")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("File")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<Guid>("Key")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedById")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Nothing")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModifiedById");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("FileItems");
                 });
 
             modelBuilder.Entity("Domain.Headquarter", b =>
@@ -430,9 +455,9 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AttachmentDeal", b =>
+            modelBuilder.Entity("DealFileItem", b =>
                 {
-                    b.HasOne("Domain.Attachment", null)
+                    b.HasOne("Domain.FileItem", null)
                         .WithMany()
                         .HasForeignKey("AttachmentsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -482,6 +507,21 @@ namespace Persistence.Migrations
                     b.Navigation("Headquarter");
 
                     b.Navigation("Priority");
+                });
+
+            modelBuilder.Entity("Domain.FileItem", b =>
+                {
+                    b.HasOne("Domain.AppUser", "ModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById");
+
+                    b.HasOne("Domain.FileItem", "Parent")
+                        .WithMany("FileItems")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("ModifiedBy");
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -538,6 +578,11 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.AppUser", b =>
                 {
                     b.Navigation("Deals");
+                });
+
+            modelBuilder.Entity("Domain.FileItem", b =>
+                {
+                    b.Navigation("FileItems");
                 });
 
             modelBuilder.Entity("Domain.Headquarter", b =>

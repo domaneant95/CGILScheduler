@@ -22,6 +22,6 @@ namespace Domain
         public Priority Priority { get; set; }
         public Headquarter Headquarter { get; set; }
         public ICollection<Assignee> Assignees { get; set; }
-        public ICollection<Attachment> Attachments { get; set; }
+        public ICollection<FileItem> Attachments { get; set; }
     }
 }

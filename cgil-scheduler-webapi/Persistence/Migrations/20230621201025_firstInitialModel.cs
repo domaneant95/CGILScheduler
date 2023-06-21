@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class migrationAfterInitialModel : Migration
+    public partial class firstInitialModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -223,6 +223,7 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReccurenceRule = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -254,6 +255,40 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FileItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Key = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    File = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Path = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Extension = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Size = table.Column<long>(type: "bigint", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Modified = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ParentId = table.Column<int>(type: "int", nullable: true),
+                    Nothing = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FileItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FileItems_AspNetUsers_ModifiedById",
+                        column: x => x.ModifiedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_FileItems_FileItems_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "FileItems",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AssigneeDeal",
                 columns: table => new
                 {
@@ -273,6 +308,30 @@ namespace Persistence.Migrations
                         name: "FK_AssigneeDeal_Deal_DealsId",
                         column: x => x.DealsId,
                         principalTable: "Deal",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DealFileItem",
+                columns: table => new
+                {
+                    AttachmentsId = table.Column<int>(type: "int", nullable: false),
+                    DealsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DealFileItem", x => new { x.AttachmentsId, x.DealsId });
+                    table.ForeignKey(
+                        name: "FK_DealFileItem_Deal_DealsId",
+                        column: x => x.DealsId,
+                        principalTable: "Deal",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DealFileItem_FileItems_AttachmentsId",
+                        column: x => x.AttachmentsId,
+                        principalTable: "FileItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -345,6 +404,21 @@ namespace Persistence.Migrations
                 name: "IX_Deal_PriorityId",
                 table: "Deal",
                 column: "PriorityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DealFileItem_DealsId",
+                table: "DealFileItem",
+                column: "DealsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FileItems_ModifiedById",
+                table: "FileItems",
+                column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FileItems_ParentId",
+                table: "FileItems",
+                column: "ParentId");
         }
 
         /// <inheritdoc />
@@ -364,9 +438,12 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
+            
             migrationBuilder.DropTable(
                 name: "AssigneeDeal");
+
+            migrationBuilder.DropTable(
+                name: "DealFileItem");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -378,10 +455,13 @@ namespace Persistence.Migrations
                 name: "Deal");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "FileItems");
 
             migrationBuilder.DropTable(
                 name: "Priority");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Headquarter");

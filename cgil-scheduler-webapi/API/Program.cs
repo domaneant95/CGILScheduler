@@ -9,6 +9,8 @@ using Application.Activities;
 using Application.Core;
 using API.Extensions;
 using Domain;
+using Application.Filemanager;
+using API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +40,8 @@ builder.Services.AddMediatR(typeof(List.Handler));
 builder.Services.AddAutoMapper(typeof(DealToDealDtoProfile).Assembly, typeof(DealDtoToDealProfile).Assembly);
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddCryptographyServices(builder.Configuration);
+builder.Services.AddDbFileProviderService();
+
 
 var app = builder.Build();
 
@@ -58,6 +62,7 @@ var services = scope.ServiceProvider;
 try
 {
     var context = services.GetRequiredService<DataContext>();
+    services.GetRequiredService<DbFileProviderService>().InitDbFileProvider(context);
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     await context.Database.MigrateAsync();
     await Seed.SeedData(context, userManager);

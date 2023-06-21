@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-
 using Domain;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
 {
@@ -26,5 +20,6 @@ namespace Persistence
         public DbSet<Assignee> Assignee { get; set; }
         public DbSet<Headquarter> Headquarter { get; set; }
         public DbSet<Priority> Priority { get; set; }
+        public DbSet<FileItem> FileItems { get; set; }
     }
 }

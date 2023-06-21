@@ -13,6 +13,6 @@
         public object startDate { get; set; }
         public object endDate { get; set; }
         public bool allDay { get; set; }
-        public List<Attachment> attachment { get; set; }
+        public List<FileItem> attachment { get; set; }
     }
 }

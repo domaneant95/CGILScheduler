@@ -40,7 +40,7 @@ namespace Application.Activities
                     {   
                         foreach(var attachment in request.Deal.attachment)
                         {
-                            if(deal.Attachments.Any(x => x.FileName == attachment.FileName))
+                            if(deal.Attachments.Any(x => x.Name == attachment.Name))
                             {
                                 Console.WriteLine($"Oops, a file with same name already exists");
                                 continue;

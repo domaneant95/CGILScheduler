@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Persistence\Persistence.csproj", "{DC1A85CA-C913-4717-A07C-5BF1900358F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{B1F1F4ED-75EE-4454-B636-16AA68A39880}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,14 @@ Global
 		{DC1A85CA-C913-4717-A07C-5BF1900358F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DC1A85CA-C913-4717-A07C-5BF1900358F6}.Release|x64.ActiveCfg = Release|Any CPU
 		{DC1A85CA-C913-4717-A07C-5BF1900358F6}.Release|x64.Build.0 = Release|Any CPU
+		{B1F1F4ED-75EE-4454-B636-16AA68A39880}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1F1F4ED-75EE-4454-B636-16AA68A39880}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1F1F4ED-75EE-4454-B636-16AA68A39880}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B1F1F4ED-75EE-4454-B636-16AA68A39880}.Debug|x64.Build.0 = Debug|Any CPU
+		{B1F1F4ED-75EE-4454-B636-16AA68A39880}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1F1F4ED-75EE-4454-B636-16AA68A39880}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1F1F4ED-75EE-4454-B636-16AA68A39880}.Release|x64.ActiveCfg = Release|Any CPU
+		{B1F1F4ED-75EE-4454-B636-16AA68A39880}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

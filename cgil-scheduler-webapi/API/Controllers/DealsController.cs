@@ -2,21 +2,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net.Http.Formatting;
 
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
-
-using Domain;
-using Persistence;
-using Application.Activities;
-using Domain.Dto;
-using Domain.DTOs;
-using System.Net.Http.Formatting;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using NPOI.SS.Formula.Functions;
+
+using Domain;
+using Domain.DTOs;
+using Persistence;
+using Application.Activities;
+using Domain.Dto;
+
 
 namespace API.Controllers
 {
@@ -63,10 +64,9 @@ namespace API.Controllers
         {
             var formFileCollection = this.Request.Form.Files;
 
-
             DealDto deal = new DealDto();
             deal.code = dealCode;
-            deal.attachment = new List<Attachment>();
+            deal.attachment = new List<FileItem>();
 
             foreach (var formFile in formFileCollection)
             {
@@ -74,16 +74,16 @@ namespace API.Controllers
                 using var memStream = new MemoryStream();
                 file.CopyTo(memStream);
 
-                deal.attachment.Add(new Attachment()
+                deal.attachment.Add(new FileItem()
                 {
                     File = memStream.ToArray(),
-                    FileSize = formFile.Length,
-                    FileName = formFile.FileName,
-                    FileExtension = Path.GetExtension(formFile.FileName),
-                    FileType = Path.HasExtension(formFile.FileName) ? FileType.File : FileType.Folder,
+                    Size = formFile.Length,
+                    Name = formFile.FileName,
+                    Extension = Path.GetExtension(formFile.FileName),
+                    Type = Path.HasExtension(formFile.FileName) ? FileType.File : FileType.Folder,
+                    Created = DateTime.Now
                 });
             }
-
 
             return Ok(await Mediator.Send(new Upload.Command { Deal = deal }));
         }
