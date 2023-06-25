@@ -8,14 +8,42 @@ namespace Application.Filemanager
 {
     public class FileSystem
     {
-        public string command { get; set; }
-        public Args args { get; set; }
+        public string command { get; set; } = string.Empty;
+        public Args? args { get; set; }
     }
 
     public class Args
     {
         public string name { get; set; }
         public Iteminfo itemInfo { get; set; }
+        public FileData? fileData { get; set; }
+        public UploadInfo? uploadInfo { get; set; }
+    }
+
+    public class FileData
+    {
+        public long lastModified { get; set; }
+        public DateTime lastModifiedDate { get; set; }
+        public string name { get; set; } = string.Empty;
+        public long size { get; set; }
+        public string type { get; set; } = string.Empty;
+        public byte[] file { get; set; }
+    }
+
+    public class UploadInfo
+    {
+        public long bytesUploaded { get; set; }
+        public int chunkCount { get; set; }
+        public int chunkIndex { get; set; }
+        public int fileIndex { get; set; }
+        public ChunkBlob chunkBlob { get; set; }
+        public object customData { get; set; }
+    }
+
+    public class ChunkBlob
+    {
+        public int size { get; set; }
+        public string type { get; set; } = string.Empty;
     }
 
     public class Iteminfo
